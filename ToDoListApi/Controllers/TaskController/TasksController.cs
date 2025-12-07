@@ -10,17 +10,25 @@ namespace ToDoListApi.Controllers.TaskController
     public class TasksController : ControllerBase
     {
         private readonly ITaskService _service;
+
+        #region Constructure
         public TasksController(ITaskService service)
         {
             _service = service;
 
         }
+        #endregion
+
+        #region GetAll
         [HttpGet("AllTask")]
         public async Task<IActionResult> GetAll()
         {
             var tasks = await _service.GetAllAsync();
             return Ok(tasks);
         }
+        #endregion
+
+        #region GetById
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -29,6 +37,9 @@ namespace ToDoListApi.Controllers.TaskController
                 return NotFound();
             return Ok(task);
         }
+        #endregion
+
+        #region Create
         [HttpPost("add")]
         public async Task<IActionResult> Create([FromBody] TaskCreateDto dto)
         {
@@ -38,7 +49,9 @@ namespace ToDoListApi.Controllers.TaskController
             var created = await _service.CreateAsync(dto);
             return CreatedAtAction(nameof(Get), new {id = created.Id}, created);
         }
+        #endregion
 
+        #region Update
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] TaskUpdateDto dto)
         {
@@ -52,6 +65,9 @@ namespace ToDoListApi.Controllers.TaskController
 
             return Ok(updated);
         }
+        #endregion
+
+        #region Dalete
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -62,5 +78,6 @@ namespace ToDoListApi.Controllers.TaskController
             return NoContent();
 
         }
+        #endregion
     }
 }

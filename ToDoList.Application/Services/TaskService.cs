@@ -14,11 +14,14 @@ namespace ToDoList.Application.Services
     {
         private readonly ITaskRepository _repo;
 
+        #region Constructure
         public TaskService(ITaskRepository repo)
         {
             _repo = repo;
         }
+        #endregion
 
+        #region Create
 
         public async Task<TaskItem> CreateAsync(TaskCreateDto dto)
         {
@@ -32,7 +35,9 @@ namespace ToDoList.Application.Services
             await _repo.AddAsync(task);
             return task;
         }
+        #endregion
 
+        #region Delete
         public async Task<bool> DeleteAsync(Guid id)
         {
             var task = await _repo.GetByIdAsync(id);
@@ -42,17 +47,23 @@ namespace ToDoList.Application.Services
             return true;
             
         }
+        #endregion
 
+        #region GetAll
         public async Task<IEnumerable<TaskItem>> GetAllAsync()
         {
             return await _repo.GetAllAsync();
         }
+        #endregion
 
+        #region GetById
         public async Task<TaskItem?> GetByIdAsync(Guid id)
         {
             return await _repo.GetByIdAsync(id);
         }
+        #endregion
 
+        #region Update
         public async Task<TaskItem?> UpdateAsync(Guid id, TaskUpdateDto dto)
         {
             var task = await _repo.GetByIdAsync(id);
@@ -69,5 +80,6 @@ namespace ToDoList.Application.Services
             return task;
 
         }
+        #endregion
     }
 }
